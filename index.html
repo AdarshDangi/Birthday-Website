@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#0b0518" />
+  <meta name="description" content="A magical 16th birthday celebration, made just for you. ✨" />
+
+  <!-- Open Graph / Instagram link-preview tags -->
+  <meta property="og:title" content="Happy 14th Birthday! 🎂" />
+  <meta property="og:description" content="A little celebration made just for you ✨" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <title>Happy 14th Birthday ✨</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>" />
+
+  <!-- Fonts: Sora (headlines/UI), Fraunces (emotional/serif accents), Plus Jakarta Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== LOADING SCREEN ===================== -->
+  <div id="loading-screen" aria-hidden="true">
+    <div class="loader-glow"></div>
+    <div class="loader-emoji">🎂</div>
+    <p class="loader-text">Wrapping up the magic<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+  </div>
+
+  <!-- Ambient particle starfield, sits behind everything -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress" role="presentation"></div>
+
+  <!-- Persistent music control -->
+  <button id="music-toggle" aria-label="Play background music" aria-pressed="false">
+    <span id="music-icon">🎵</span>
+  </button>
+  <audio id="bg-music" loop preload="none">
+    <source src="assets/music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Confetti / fireworks overlay canvas, used by multiple sections -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <main>
+
+    <!-- ===================== 1. HERO / WELCOME ===================== -->
+    <section id="hero" class="section hero" aria-label="Welcome">
+      <div class="hero-stars" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="eyebrow">a little celebration for</p>
+        <p class="hero-name" id="friend-name-hero">Friend's Name</p>
+        <h1 class="hero-title">
+          Happy <span class="highlight">14th</span><br />Birthday!
+        </h1>
+        <p class="hero-sub">23rd June · a day made just for you ✨</p>
+        <button class="btn-glow" id="start-celebration" type="button">
+          Start the Celebration
+          <span class="arrow" aria-hidden="true">↓</span>
+        </button>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span></span> scroll
+      </div>
+    </section>
+
+    <!-- ===================== 2. AGE / COUNTDOWN ===================== -->
+    <section id="age" class="section" aria-label="Birthday countdown and age">
+      <p class="eyebrow">the numbers</p>
+      <h2 class="section-title">From Day One Until Now</h2>
+
+      <div class="date-cards">
+        <div class="glass-card date-card">
+          <span class="label">Born</span>
+          <span class="value">23 Jun 2012</span>
+        </div>
+        <div class="glass-card date-card date-card--accent">
+          <span class="label">Turning 14</span>
+          <span class="value">23 Jun 2026</span>
+        </div>
+      </div>
+
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-days">00</span>
+          <label>Days</label>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <label>Hours</label>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-mins">00</span>
+          <label>Mins</label>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-secs">00</span>
+          <label>Secs</label>
+        </div>
+      </div>
+      <p class="countdown-label" id="countdown-label">until the big day</p>
+
+      <div class="stats-grid">
+        <div class="glass-card stat-card">
+          <span class="stat-value" id="stat-years">0</span>
+          <span class="stat-label">Years Lived</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value" id="stat-months">0</span>
+          <span class="stat-label">Months Lived</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value" id="stat-days">0</span>
+          <span class="stat-label">Days Lived</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value" id="stat-hours">0</span>
+          <span class="stat-label">Hours Lived</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. BALLOON CELEBRATION ===================== -->
+    <section id="balloons" class="section" aria-label="Pop the balloons">
+      <p class="eyebrow">pop a little joy</p>
+      <h2 class="section-title">Tap The Balloons!</h2>
+      <p class="section-sub">Every balloon is hiding something sweet 🎈</p>
+      <div class="balloon-field" id="balloon-field"></div>
+    </section>
+
+    <!-- ===================== 4. BIRTHDAY CAKE ===================== -->
+    <section id="cake" class="section" aria-label="Birthday cake">
+      <p class="eyebrow">make a wish</p>
+      <h2 class="section-title">Blow Out The Candles</h2>
+      <p class="section-sub" id="cake-instruction">Tap all 14 candles, then cut the cake</p>
+
+      <div class="cake-wrap" id="cake-wrap">
+        <div class="candles" id="candles" role="group" aria-label="14 candles"></div>
+        <div class="cake" id="cake-visual">
+          <div class="cake-plate"></div>
+          <div class="cake-tier cake-tier--bottom"></div>
+          <div class="cake-tier cake-tier--top"></div>
+          <div class="cake-drip"></div>
+          <div class="knife" id="knife" aria-hidden="true">🔪</div>
+        </div>
+      </div>
+
+      <button class="btn-glow" id="cut-cake-btn" type="button" disabled>
+        Cut The Cake 🍰
+      </button>
+    </section>
+
+    <!-- ===================== 5. PERSONAL MESSAGE ===================== -->
+    <section id="message" class="section" aria-label="A personal message">
+      <p class="eyebrow">from the heart</p>
+      <h2 class="section-title">A Little Letter For You</h2>
+      <div class="glass-card message-card">
+        <p id="typewriter-text" class="typewriter-text" aria-live="polite"></p>
+        <span class="cursor" id="typewriter-cursor" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- ===================== 6. MEMORY GALLERY ===================== -->
+    <section id="gallery" class="section" aria-label="Photo gallery">
+      <p class="eyebrow">memory lane</p>
+      <h2 class="section-title">Snapshots Of Us</h2>
+      <p class="section-sub">Tap any photo to see it full screen</p>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+    <!-- ===================== 7. 16 THINGS I APPRECIATE ===================== -->
+    <section id="appreciate" class="section" aria-label="16 things I appreciate about you">
+      <p class="eyebrow">14 reasons</p>
+      <h2 class="section-title">14 Things I Love About You</h2>
+      <div class="appreciate-grid" id="appreciate-grid"></div>
+    </section>
+
+    <!-- ===================== 8. SURPRISE GIFT BOX ===================== -->
+    <section id="giftbox" class="section" aria-label="Surprise gift">
+      <p class="eyebrow">one more thing</p>
+      <h2 class="section-title">A Little Surprise</h2>
+
+      <button class="gift-box" id="gift-box" type="button" aria-label="Tap to open your gift">
+        <div class="gift-lid">
+          <div class="gift-bow"></div>
+        </div>
+        <div class="gift-body">
+          <div class="gift-ribbon-v"></div>
+        </div>
+      </button>
+      <p class="section-sub" id="gift-hint">Tap the box ✨</p>
+
+      <div class="glass-card gift-reveal" id="gift-reveal" hidden>
+        <p id="gift-message"></p>
+      </div>
+    </section>
+
+    <!-- ===================== 9. WISH WALL ===================== -->
+    <section id="wishwall" class="section" aria-label="Leave a birthday wish">
+      <p class="eyebrow">add your voice</p>
+      <h2 class="section-title">Leave A Birthday Wish</h2>
+
+      <form id="wish-form" class="wish-form glass-card">
+        <label for="wish-name">Your name</label>
+        <input id="wish-name" name="wish-name" type="text" required maxlength="30" placeholder="e.g. Aanya" autocomplete="off" />
+
+        <label for="wish-text">Your wish</label>
+        <textarea id="wish-text" name="wish-text" required maxlength="220" rows="3" placeholder="Write something sweet..."></textarea>
+
+        <button type="submit" class="btn-glow">Post Wish 💌</button>
+      </form>
+
+      <div class="wish-list" id="wish-list" aria-live="polite"></div>
+    </section>
+
+    <!-- ===================== 10. FRIENDSHIP TIMELINE ===================== -->
+    <section id="timeline" class="section" aria-label="Friendship timeline">
+      <p class="eyebrow">our story</p>
+      <h2 class="section-title">2012 → 2026</h2>
+      <div class="timeline" id="timeline-list"></div>
+    </section>
+
+    <!-- ===================== 11. FIREWORKS FINALE ===================== -->
+    <section id="finale" class="section finale" aria-label="Celebration finale">
+      <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+      <div class="hearts-field" id="hearts-field" aria-hidden="true"></div>
+      <h2 class="finale-text">
+        Thank You For Being<br />Such An Amazing Friend
+        <span class="heart-emoji" aria-hidden="true">❤️</span>
+      </h2>
+    </section>
+
+    <!-- ===================== 12. FINAL SCREEN ===================== -->
+    <section id="final" class="section final-screen" aria-label="Closing message">
+      <div class="final-hearts" aria-hidden="true"></div>
+      <h2 class="final-title">
+        Happy 14th Birthday,<br /><span id="friend-name-final">Friend's Name</span> 🎂
+      </h2>
+      <p class="final-sub">Here's to everything beautiful that's coming your way.</p>
+      <div class="final-actions">
+        <button class="btn-glow" id="share-btn" type="button">Share This Page</button>
+        <button class="btn-outline" id="replay-btn" type="button">Replay Celebration ↻</button>
+      </div>
+      <p class="made-with" id="easter-egg-trigger">Made with 💜 just for you</p>
+    </section>
+
+  </main>
+
+  <!-- ===================== LIGHTBOX (gallery) ===================== -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close photo">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </div>
+
+  <!-- ===================== TOAST (balloon facts, easter egg, etc.) ===================== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
