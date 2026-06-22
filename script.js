@@ -629,7 +629,7 @@ function initWishWall() {
   const STORAGE_KEY = "birthdayWishes";
 
   const seedWishes = [
-    { name: "A Friend", text: "Wishing you the happiest 16th birthday — here's to an incredible year ahead! 🎉" },
+    { name: "A Friend", text: "Wishing you the happiest 14th birthday — here's to an incredible year ahead! 🎉" },
   ];
 
   function loadWishes() {
@@ -801,7 +801,7 @@ function initFinale() {
 function initFinalScreen() {
   $("#share-btn").addEventListener("click", async () => {
     const shareData = {
-      title: `Happy 16th Birthday ${CONFIG.friendName}! 🎂`,
+      title: `Happy 14th Birthday ${CONFIG.friendName}! 🎂`,
       text: `A little celebration made just for ${CONFIG.friendName} ✨`,
       url: window.location.href,
     };
