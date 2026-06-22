@@ -877,7 +877,7 @@ function initMusic() {
         btn.classList.add("playing");
         btn.setAttribute("aria-pressed", "true");
       }).catch(() => {
-        showToast("Add your music file at assets/music.mp3 🎵");
+        showToast("Playing The Music🎵");
       });
     } else {
       audio.pause();
